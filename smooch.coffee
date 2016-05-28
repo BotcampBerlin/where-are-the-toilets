@@ -5,6 +5,7 @@ jwt = require 'jsonwebtoken'
 module.exports = Smooch =
   # Send message out via Smooch
   sendMessage: (user_id, msg) ->
+    debug "sendMessage '#{msg}' to #{user_id}"
     jwtHeader =
       header:
         alg: 'HS256'
