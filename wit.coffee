@@ -21,6 +21,7 @@ module.exports =
         debug context
         cb()
       merge: (sessionId, context, entities, message, cb) ->
+        debug context
         debug entities
 
         search = firstEntityValue entities, 'search_facilities'
@@ -30,6 +31,10 @@ module.exports =
         stage = firstEntityValue entities, 'stage_now_playing'
         if stage?
           context.stageLocation = stage
+
+        artist= firstEntityValue entities, 'schedule_for_artist'
+        if artist?
+          context.artist = artist
 
         cb context
       error: (sessionId, context, error) ->
@@ -42,6 +47,10 @@ module.exports =
       getNowOnStage: (sessionId, context, cb) ->
         debug context
         context.response = 'The White Stripes are playing.'
+        cb context
+      getSchedule: (sessionId, context, cb) ->
+        debug context
+        context.response = "#{context.artist} is playing at 2.00pm on Stage B"
         cb context
     client = new Wit token, actions
     session = user_id + '_' + new Date().getTime()

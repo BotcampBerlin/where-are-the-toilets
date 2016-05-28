@@ -17,6 +17,8 @@ module.exports = Smooch =
 
     jwtSig = jwt.sign jwtPayload, jwtSecret, jwtHeader
 
+    #debug jwtSig
+
     options =
       method: 'POST'
       url:    "https://api.smooch.io/v1/appusers/#{user_id}/conversation/messages"
