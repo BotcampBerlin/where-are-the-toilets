@@ -25,14 +25,14 @@ sendMsg = (user_id, msg) ->
     scope: 'app'
   jwtSecret = 'A3QkWUbW5vmB9PR5m2iYyPcS'
 
-  jwt = jwt.sign jwtPayload, jwtSecret, jwtHeader
+  jwtSig = jwt.sign jwtPayload, jwtSecret, jwtHeader
 
   options =
     method: 'POST'
     url:    "https://api.smooch.io/v1/appusers/#{user_id}/conversation/messages"
     headers:
       'content-type': 'application/json'
-      'authorization': "Bearer #{jwt}"
+      'authorization': "Bearer #{jwtSig}"
     body: JSON.stringify { text: msg, role: "appMaker" }
   request options, (err, httpResponse, body) ->
     if err then debug err
