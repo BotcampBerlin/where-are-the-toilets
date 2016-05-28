@@ -15,14 +15,7 @@ app.use bodyParser.urlencoded({ extended: false })
 app.use cookieParser()
 app.use express.static(path.join(__dirname, '../public'))
 
-# the actual POST webhook handler
-app.post '/webhook', (req, res) ->
-  debug req.body
-
-  # test
-  user_id = req.body.appUser._id
-  user_name = req.body.appUser.givenName
-
+sendMsg = (user_id, msg) ->
   jwtHeader =
     header:
       alg: 'HS256'
@@ -34,21 +27,28 @@ app.post '/webhook', (req, res) ->
 
   jwt = jwt.sign jwtPayload, jwtSecret, jwtHeader
 
-
   options =
     method: 'POST'
     url:    "https://api.smooch.io/v1/appusers/#{user_id}/conversation/messages"
     headers:
       'content-type': 'application/json'
       'authorization': "Bearer #{jwt}"
-    body: {
-      text: "Hello #{user_name}"
-      role: "appMaker"
-    }
+    body: JSON.stringify { text: msg, role: "appMaker" }
   request options, (err, httpResponse, body) ->
     if err then debug err
     debug httpResponse
     debug body
+
+# the actual POST webhook handler
+app.post '/webhook', (req, res) ->
+  debug req.body
+
+  # test
+  user_id = req.body.appUser._id
+  user_name = req.body.appUser.givenName
+
+  sendMsg user_id, "Hello #{user_name}"
+
   res.sendStatus 200
 
 port = process.env.PORT || 3000
