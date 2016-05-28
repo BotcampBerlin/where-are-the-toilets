@@ -22,15 +22,20 @@ module.exports =
         cb()
       merge: (sessionId, context, entities, message, cb) ->
         debug entities
-        location = firstEntityValue entities, 'local_search_query'
-        context.location = location
+        stage = firstEntityValue entities, 'stage_now_playing'
+        if stage?
+          context.stageLocation = stage
         cb context
       error: (sessionId, context, error) ->
-        debug context
+        debug "Error #{error.message}"
         Smooch.sendMessage user_id, error.message
       getDirections: (sessionId, context, cb) ->
         debug context
         context.response = 'The toilets are near the east entrance'
+        cb context
+      getNowOnStage: (sessionId, context, cb) ->
+        debug context
+        context.response = 'The White Stripes are playing.'
         cb context
     client = new Wit token, actions
     session = user_id
@@ -38,6 +43,6 @@ module.exports =
       if error
         debug "Oops! Got an error: #{error}"
       else
-        Smooch.sendMessage user_id, context.response
         debug "The session state is now: #{JSON.stringify(context)}"
+        Smooch.sendMessage user_id, context.response
 
