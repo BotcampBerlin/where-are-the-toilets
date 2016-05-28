@@ -12,7 +12,7 @@ firstEntityValue = (entities, entity) ->
   if typeof val == 'object' then return val.value
   return val
 
-module.exports = Wit =
+module.exports =
   parseMessage: (user_id, msg) ->
     actions =
       say: (sessionId, context, message, cb) ->
