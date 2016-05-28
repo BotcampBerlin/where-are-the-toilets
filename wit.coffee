@@ -34,7 +34,7 @@ module.exports =
         cb context
       error: (sessionId, context, error) ->
         debug "Error #{error.message}"
-        #Smooch.sendMessage user_id, error.message
+        Smooch.sendMessage user_id, error.message
       getDirections: (sessionId, context, cb) ->
         debug context
         context.response = 'The toilets are near the east entrance'
@@ -51,4 +51,4 @@ module.exports =
         debug "Oops! Got an error: #{error}"
       else
         debug "The session state is now: #{JSON.stringify(context)}"
-        #Smooch.sendMessage user_id, context.response
+        Smooch.sendMessage user_id, context.response
