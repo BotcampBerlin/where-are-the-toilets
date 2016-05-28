@@ -1,9 +1,11 @@
+debug = (require 'debug') 'app'
 express = require 'express'
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 path = require 'path'
 http = require 'http'
-debug = (require 'debug') 'app'
+request = require 'request'
+jwt = require 'jsonwebtoken'
 
 app = express()
 #app.set 'view engine', 'pug'
@@ -16,9 +18,39 @@ app.use express.static(path.join(__dirname, '../public'))
 # the actual POST webhook handler
 app.post '/webhook', (req, res) ->
   debug req.body
-  res.send 200
+
+  # test
+  user_id = body.appUser._id
+  user_name = body.appUser.givenName
+
+  jwtHeader =
+    header:
+      alg: 'HS256'
+      typ: 'JWT'
+      kid: 'app_5749c5c01ce6035c00bb09cb'
+  jwtPayload =
+    scope: 'app'
+  jwtSecret = 'A3QkWUbW5vmB9PR5m2iYyPcS'
+
+  jwt = jwt.sign jwtPayload, jwtSecret, jwtHeader
+
+
+  options =
+    method: 'POST'
+    url:    "https://api.smooch.io/v1/appusers/#{user_id}/conversation/messages"
+    headers:
+      'content-type': 'application/json'
+      'authorization': "Bearer #{jwt}"
+    body: {
+      text: "Hello #{user_name}"
+      role: "appMaker"
+    }
+  request options, (err, httpResponse, body) ->
+    if err then debug err
+    debug httpResponse
+    debug body
+  res.sendStatus 200
 
 port = process.env.PORT || 3000
 srv = http.createServer app
   .listen port, -> debug "Listening on http://*:#{port}"
-
