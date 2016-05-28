@@ -1,5 +1,6 @@
 debug = (require 'debug') 'wit'
 Wit = require('node-wit').Wit
+Smooch = require './smooch'
 
 token = process.env.WIT_APP_TOKEN
 

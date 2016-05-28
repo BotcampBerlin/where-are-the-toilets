@@ -4,7 +4,6 @@ cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 path = require 'path'
 http = require 'http'
-Smooch = require './smooch' 
 Wit = require './wit'
 
 app = express()
