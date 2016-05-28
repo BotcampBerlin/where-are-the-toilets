@@ -20,8 +20,8 @@ app.post '/webhook', (req, res) ->
   debug req.body
 
   # test
-  user_id = body.appUser._id
-  user_name = body.appUser.givenName
+  user_id = req.body.appUser._id
+  user_name = req.body.appUser.givenName
 
   jwtHeader =
     header:
