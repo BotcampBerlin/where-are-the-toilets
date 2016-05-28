@@ -23,6 +23,9 @@ module.exports = Smooch =
       headers:
         'content-type': 'application/json'
         'authorization': "Bearer #{jwtSig}"
-      body: JSON.stringify { text: msg, role: "appMaker" }
+      body: JSON.stringify {
+        text: msg
+        role: "appMaker"
+      }
     request options, (err, httpResponse, body) ->
       if err then debug err
