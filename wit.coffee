@@ -1,10 +1,7 @@
 debug = (require 'debug') 'wit'
 Wit = require('node-wit').Wit
 
-
-
-
-token = '4PDOLXBJZT6IT224N5UJIJGITCLMHUAG'
+token = process.env.WIT_APP_TOKEN
 
 actions =
   say: (sessionId, context, message, cb) ->

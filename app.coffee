@@ -15,15 +15,16 @@ app.use bodyParser.urlencoded({ extended: false })
 app.use cookieParser()
 app.use express.static(path.join(__dirname, '../public'))
 
+# Send message out via Smooch
 sendMsg = (user_id, msg) ->
   jwtHeader =
     header:
       alg: 'HS256'
       typ: 'JWT'
-      kid: 'app_5749c5c01ce6035c00bb09cb'
+      kid: process.env.JWT_KID
   jwtPayload =
     scope: 'app'
-  jwtSecret = 'A3QkWUbW5vmB9PR5m2iYyPcS'
+  jwtSecret = process.env.JWT_SECRET
 
   jwtSig = jwt.sign jwtPayload, jwtSecret, jwtHeader
 
@@ -36,11 +37,11 @@ sendMsg = (user_id, msg) ->
     body: JSON.stringify { text: msg, role: "appMaker" }
   request options, (err, httpResponse, body) ->
     if err then debug err
-    debug httpResponse
-    debug body
+    #debug httpResponse
+    #debug body
 
-# the actual POST webhook handler
-app.post '/webhook', (req, res) ->
+# Smooch webhook for appUser messages
+app.post '/message', (req, res) ->
   debug req.body
 
   # test
@@ -49,6 +50,11 @@ app.post '/webhook', (req, res) ->
 
   sendMsg user_id, "Hello #{user_name}"
 
+  res.sendStatus 200
+
+# Smooch webhook for appUser postbacks
+app.post '/postback', (req, res) ->
+  debug req.body
   res.sendStatus 200
 
 port = process.env.PORT || 3000
