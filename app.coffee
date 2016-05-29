@@ -4,7 +4,7 @@ cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 path = require 'path'
 http = require 'http'
-Wit = require './wit'
+Parser = require './parser'
 
 app = express()
 #app.set 'view engine', 'pug'
@@ -24,7 +24,7 @@ app.post '/message', (req, res) ->
   user_name = req.body.appUser.givenName
   msg = req.body.messages[0].text;
 
-  Wit.parseMessage user_id, user_name, msg
+  Parser.parseMessage user_id, user_name, msg
   res.sendStatus 200
 
 # Smooch webhook for appUser postbacks
