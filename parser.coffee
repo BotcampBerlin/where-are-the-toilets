@@ -55,7 +55,7 @@ queryData = (user_id, user_name, argument) ->
       url = "/check-in/#{user_id}"
       body =
         userName: user_name
-        band: argument.parameters.band
+        eventName: argument.parameters.band
       sendPostRequest user_id, url, body
     when 'query.bandSchedule'
       url = '/search?eventName=' + argument.parameters.band
