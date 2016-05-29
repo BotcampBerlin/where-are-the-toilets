@@ -1,4 +1,5 @@
 debug = (require 'debug') 'test'
-Wit = require './wit'
+Parser = require './parser'
 
-Wit.parseMessage '177e19cafed83338c31a05ba', 'Where is the food stall?'
+Parser.parseMessage '177e19cafed83338c31a05ba', 'Rouven', 'I\'m at Kugelbühne'
+#Parser.parseMessage '177e19cafed83338c31a05ba', 'Rouven', 'Where is Rouven?'

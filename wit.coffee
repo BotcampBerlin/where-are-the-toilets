@@ -1,5 +1,8 @@
+# TEST: wit.ai (not used)
+
 debug = (require 'debug') 'wit'
 Wit = require('node-wit').Wit
+
 Smooch = require './smooch'
 
 token = process.env.WIT_APP_TOKEN
@@ -14,7 +17,7 @@ firstEntityValue = (entities, entity) ->
   return val
 
 module.exports =
-  parseMessage: (user_id, msg) ->
+  parseMessage: (user_id,   msg) ->
     actions =
       say: (sessionId, context, message, cb) ->
         debug "say: #{message}"
@@ -32,7 +35,7 @@ module.exports =
         if stage?
           context.stageLocation = stage
 
-        artist= firstEntityValue entities, 'schedule_for_artist'
+        artist = firstEntityValue entities, 'schedule_for_artist'
         if artist?
           context.artist = artist
 

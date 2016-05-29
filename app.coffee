@@ -24,7 +24,7 @@ app.post '/message', (req, res) ->
   user_name = req.body.appUser.givenName
   msg = req.body.messages[0].text;
 
-  Wit.parseMessage user_id, msg
+  Wit.parseMessage user_id, user_name, msg
   res.sendStatus 200
 
 # Smooch webhook for appUser postbacks
