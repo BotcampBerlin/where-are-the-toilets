@@ -95,7 +95,7 @@ module.exports =
     req.on 'response', (response) ->
       debug response
       if response.result.actionIncomplete
-        debug 'Prompt: ' + response.result.fulfillment.speech
+        Smooch.sendMessage user_id, response.result.fulfillment.speech
       else
         queryData user_id, user_name, response.result
 
